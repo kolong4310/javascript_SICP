@@ -110,3 +110,69 @@ function sqrt(x){
 }
 
 console.log(sqrt(9));
+
+
+//연습문제 1.6 
+function conditional(predicate,then_clause,ele_clause){
+    return predicate ? then_clause : ele_clause;
+}
+console.log(conditional(2 === 3,9,5));
+console.log(conditional(1 === 1,0,5));
+
+//
+function sqrt_iter2(guess,x){
+    return conditional(is_good_enough(guess,x),
+                       guess,
+                       sqrt_iter2(improve(guess,x),
+                                x));
+}
+
+//연습문제 1.7
+
+console.log('--------------');
+
+//지역이름
+///함수의 매개변수는 그 이름이 중요하지 않다는 점에서 함수선언에서 아주 특별한 역활은 한다. 그런 이름을 일컬어 함수 선언에 바인딩되었다 또는 묶였다(bound)라고 말한다
+
+
+//내부선언과 블록구조
+//위에 제곱근 함수들을 선언함에 있어 문제는 사용자에게 꼭필요함수는 sqrt 뿐인데 다른 함수들은 혼란을 가중시킨다
+//그러므로 내부선언을 하는것이 좋다는 내용
+function sqrt3(x){
+
+    function abs(x){
+        return x > 0 
+        ? x
+        : x === 0 
+        ? 0
+        : -x;
+    }
+
+    function square(x){
+        return x * x;
+    }    
+
+    function is_good_enough(guess,x){
+        return abs(square(guess) - x) < 0.001;
+    }
+
+
+    function average(x,y){
+        return (x+y)/2;
+    }
+
+
+    function improve(guess,x){
+        return average(guess,x/guess);
+    }
+
+    function sqrt_iter(guess,x){
+        is_good_enough(guess,x)
+        ? guess
+        : sqrt_iter(improve(guess,x),x);
+    }
+
+    return sqrt_iter(1,x);
+}
+
+console.log(sqrt3(1));
